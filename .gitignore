@@ -3,3 +3,12 @@
 ################################################################################
 
 /.vs/ComandaWeb/v16
+/.vs
+/ComandaWeb/.vs/ComandaWeb
+/ComandaWeb/ComandaWeb/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWeb/obj
+/ComandaWeb/ComandaWeb.DAL.Comanda/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWeb.DAL.Comanda/Migrations
+/ComandaWeb/ComandaWeb.DAL.Comanda/obj
+/ComandaWeb/ComandaWeb.Model/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWeb.Model/obj
