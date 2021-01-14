@@ -5,9 +5,9 @@ using System.Text;
 
 namespace ComandaWeb.Model
 {
+    
     public class Item
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
         public string Descricao { get; set; }
         public decimal Valor { get; set; }

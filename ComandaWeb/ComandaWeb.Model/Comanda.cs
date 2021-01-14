@@ -11,4 +11,9 @@ namespace ComandaWeb.Model
         
         public ICollection<ComandaItem> Itens { get; set; }
     }
+    public class ComandaApi
+    {
+        public int Id { get; set; }
+        public int Codigo { get; set; }
+    }
 }

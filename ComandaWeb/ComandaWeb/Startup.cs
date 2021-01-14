@@ -1,4 +1,5 @@
 using ComandaWeb.DAL.Comanda;
+using ComandaWeb.DAL.Comanda.Repositorio;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace ComandaWeb
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IUnidadeTrabalho, UnidadeTrabalho>();
             services.AddDbContext<ComandaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Comanda")));
         }
 
