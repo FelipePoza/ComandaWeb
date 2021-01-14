@@ -8,6 +8,7 @@ namespace ComandaWeb.DAL.Comanda.Repositorio
     public interface IUnidadeTrabalho
     {
         IComandaRepositorio ComandaRepositorio { get; }
+        IItemRepositorio ItemRepositorio { get; }
         Task Salvar();
     }
 }

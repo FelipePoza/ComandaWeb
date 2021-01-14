@@ -8,6 +8,7 @@ namespace ComandaWeb.DAL.Comanda.Repositorio
     public class UnidadeTrabalho : IUnidadeTrabalho
     {
         public ComandaRepositorio _comandaRepo;
+        public ItemRepositorio _itemRepo;
         public ComandaContext _contexto;
 
         public UnidadeTrabalho(ComandaContext contexto)
@@ -21,6 +22,14 @@ namespace ComandaWeb.DAL.Comanda.Repositorio
             {
                 return _comandaRepo ?? new ComandaRepositorio(_contexto);
             }   
+        }
+
+        public IItemRepositorio ItemRepositorio
+        {
+            get
+            {
+                return _itemRepo ?? new ItemRepositorio(_contexto);
+            }
         }
 
         public async Task Salvar()
