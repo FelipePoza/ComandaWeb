@@ -7,6 +7,7 @@ using ComandaWeb.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace ComandaWeb.Controllers
 {
@@ -15,10 +16,12 @@ namespace ComandaWeb.Controllers
     public class ItemController : ControllerBase
     {
         private readonly IUnidadeTrabalho _unidadeTrabalho;
+        private readonly ILogger _log;
 
-        public ItemController(IUnidadeTrabalho unidadeTrabalho)
+        public ItemController(IUnidadeTrabalho unidadeTrabalho,ILogger<ItemController> log)
         {
             _unidadeTrabalho = unidadeTrabalho;
+            _log = log;
         }
 
         [HttpGet]
@@ -34,6 +37,7 @@ namespace ComandaWeb.Controllers
             var item = await _unidadeTrabalho.ItemRepositorio.ListarPorId(a => a.Id == id);
             if (item == null)
             {
+                _log.LogInformation("Item não localizado");
                 return NotFound();
             }
             return Ok(item);
@@ -53,6 +57,7 @@ namespace ComandaWeb.Controllers
         {
             if (id != item.Id)
             {
+                _log.LogInformation("Item não localizado para atualizacao");
                 return NotFound();
             }
             _unidadeTrabalho.ItemRepositorio.Atualizar(item);
@@ -66,6 +71,7 @@ namespace ComandaWeb.Controllers
             var item = await _unidadeTrabalho.ItemRepositorio.ListarPorId(a => a.Id == id);
             if (item == null)
             {
+                _log.LogInformation("Item não localizado para remoção");
                 return NotFound();
             }
             _unidadeTrabalho.ItemRepositorio.Remover(item);

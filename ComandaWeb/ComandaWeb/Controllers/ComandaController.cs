@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ComandaWeb.Controllers
 {
@@ -16,10 +17,12 @@ namespace ComandaWeb.Controllers
     public class ComandaController : ControllerBase
     {
         private readonly IUnidadeTrabalho _unidadeTrabalho;
-        
-        public ComandaController(IUnidadeTrabalho unidadeTrabalho)
+        private readonly ILogger _log;
+
+        public ComandaController(IUnidadeTrabalho unidadeTrabalho,ILogger<ComandaController> log)
         {
             _unidadeTrabalho = unidadeTrabalho;
+            _log = log;
         }
 
         [HttpGet]
@@ -35,7 +38,8 @@ namespace ComandaWeb.Controllers
             var comanda = await _unidadeTrabalho.ComandaRepositorio.ListarPorId(a=>a.Id == id);
             if (comanda == null)
             {
-              return NotFound();
+                _log.LogInformation("Comanda não localizada");
+                return NotFound();
             }
             return Ok(comanda.ToApi());
         }
@@ -46,6 +50,7 @@ namespace ComandaWeb.Controllers
             _unidadeTrabalho.ComandaRepositorio.Adicionar(comanda.ToModel());
             await _unidadeTrabalho.Salvar();
             var url = Url.Action("Listar");
+            _log.LogInformation("Comanda criada.");
             return Created(url,comanda);
         }
 
@@ -58,6 +63,7 @@ namespace ComandaWeb.Controllers
             }
             _unidadeTrabalho.ComandaRepositorio.Atualizar(model.ToModel());
             await _unidadeTrabalho.Salvar();
+            _log.LogInformation("Comanda atualzida.");
             return Ok();
         }
 
@@ -69,6 +75,7 @@ namespace ComandaWeb.Controllers
                 var comanda = await _unidadeTrabalho.ComandaRepositorio.ListarPorId(a => a.Id == id);
                 if (comanda == null)
                 {
+                    _log.LogInformation("Comanda não localizada.");
                     return NotFound();
                 }
                  _unidadeTrabalho.ComandaRepositorio.Remover(comanda);
@@ -77,6 +84,7 @@ namespace ComandaWeb.Controllers
             }
             catch (DbUpdateException ex)
             {
+                _log.LogError("Erro ao remover Comanda.");
                 return BadRequest();
                 //throw ;
             }

@@ -1,11 +1,13 @@
 using ComandaWeb.DAL.Comanda;
 using ComandaWeb.DAL.Comanda.Repositorio;
+using ComandaWeb.Log;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace ComandaWeb
 {
@@ -27,12 +29,17 @@ namespace ComandaWeb
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory fabricaLog)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            fabricaLog.AddProvider(new ProvedorLog(new ConfiguracaoProvedorLog
+            {
+                LevelLog = LogLevel.Information
+            },Configuration)); 
 
             app.UseHttpsRedirection();
 
