@@ -1,17 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using ComandaWeb.DAL.Comanda.Repositorio;
 using ComandaWeb.Model;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ComandaWeb.Controllers
 {
+    //[Authorize(AuthenticationSchemes ="Bearer")]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ComandaController : ControllerBase
@@ -24,7 +24,11 @@ namespace ComandaWeb.Controllers
             _unidadeTrabalho = unidadeTrabalho;
             _log = log;
         }
-
+        
+        /// <summary>
+        /// Listar Comandas cadastradas
+        /// </summary>
+        /// <returns>Retornar json contendo as comandas cadastradas.</returns>
         [HttpGet]
         public async Task<IActionResult> Listar()
         {
@@ -32,7 +36,23 @@ namespace ComandaWeb.Controllers
             return Ok(comanda);
         }
 
+        /// <summary>
+        /// Retornar comanda cadastrada por id
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de Requisição:
+        ///
+        ///     GET /Todo
+        ///     {
+        ///        "id": 1
+        ///     }
+        /// </remarks>
+        /// <param name="id">Id da comanda cadastrada</param>
+        /// <returns>Retornar json contendo a comanda cadastrada para o id informado</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> ListarPorId(int id)
         {
             var comanda = await _unidadeTrabalho.ComandaRepositorio.ListarPorId(a=>a.Id == id);
@@ -44,7 +64,22 @@ namespace ComandaWeb.Controllers
             return Ok(comanda.ToApi());
         }
 
+        /// <summary>
+        /// Inserir uma nova comanda na base de dados
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de Requisição:
+        ///
+        ///     POST /Todo
+        ///     {
+        ///        "codigo": 1
+        ///     }
+        /// </remarks>
+        /// <param name="comanda">Json contendo informações da comanda</param>
+        /// <returns>Retornar comanda cadastrada</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Inserir([FromBody] ComandaApi comanda)
         {
             _unidadeTrabalho.ComandaRepositorio.Adicionar(comanda.ToModel());
@@ -54,7 +89,24 @@ namespace ComandaWeb.Controllers
             return Created(url,comanda);
         }
 
+        /// <summary>
+        /// Alterar dados da comanda
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de Requisição:
+        ///
+        ///     PUT /Todo
+        ///     {
+        ///        "codigo": 5
+        ///     }
+        /// </remarks>
+        /// <param name="id">Identificador da comanda</param>
+        /// <param name="model">Json contendo a comanda cadastrada</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Alterar(int? id,[FromBody] ComandaApi model)
         {
             if (id != model.Id)
@@ -67,7 +119,24 @@ namespace ComandaWeb.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Remover uma comanda
+        /// </summary>
+        /// /// <remarks>
+        /// Exemplo de Requisição:
+        ///
+        ///     DELETE /Todo
+        ///     {
+        ///        "id": 5
+        ///     }
+        /// </remarks>
+        /// <param name="id">Identificador da comanda cadastrada</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Remover(int id)
         {
             try
@@ -82,7 +151,7 @@ namespace ComandaWeb.Controllers
                 await _unidadeTrabalho.Salvar();
                 return NoContent();
             }
-            catch (DbUpdateException ex)
+            catch (DbUpdateException)
             {
                 _log.LogError("Erro ao remover Comanda.");
                 return BadRequest();

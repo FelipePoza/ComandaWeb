@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ComandaWeb</name>
+    </assembly>
+    <members>
+        <member name="M:ComandaWeb.Controllers.ComandaController.Listar">
+            <summary>
+            Listar Comandas cadastradas
+            </summary>
+            <returns>Retornar json contendo as comandas cadastradas.</returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ComandaController.ListarPorId(System.Int32)">
+             <summary>
+             Retornar comanda cadastrada por id
+             </summary>
+             <remarks>
+             Exemplo de Requisição:
+            
+                 GET /Todo
+                 {
+                    "id": 1
+                 }
+             </remarks>
+             <param name="id">Id da comanda cadastrada</param>
+             <returns>Retornar json contendo a comanda cadastrada para o id informado</returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ComandaController.Inserir(ComandaWeb.Model.ComandaApi)">
+             <summary>
+             Inserir uma nova comanda na base de dados
+             </summary>
+             <remarks>
+             Exemplo de Requisição:
+            
+                 POST /Todo
+                 {
+                    "codigo": 1
+                 }
+             </remarks>
+             <param name="comanda">Json contendo informações da comanda</param>
+             <returns>Retornar comanda cadastrada</returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ComandaController.Alterar(System.Nullable{System.Int32},ComandaWeb.Model.ComandaApi)">
+             <summary>
+             Alterar dados da comanda
+             </summary>
+             <remarks>
+             Exemplo de Requisição:
+            
+                 PUT /Todo
+                 {
+                    "codigo": 5
+                 }
+             </remarks>
+             <param name="id">Identificador da comanda</param>
+             <param name="model">Json contendo a comanda cadastrada</param>
+             <returns></returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ComandaController.Remover(System.Int32)">
+             <summary>
+             Remover uma comanda
+             </summary>
+             /// <remarks>
+             Exemplo de Requisição:
+            
+                 DELETE /Todo
+                 {
+                    "id": 5
+                 }
+             </remarks>
+             <param name="id">Identificador da comanda cadastrada</param>
+             <returns></returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ItemController.Listar">
+            <summary>
+            Listar Itens
+            </summary>
+            <returns>Json contendo lista de itens</returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ItemController.ListarPorId(System.Int32)">
+            <summary>
+            Listar Item por ID
+            </summary>
+            <param name="id">Identificador do Item</param>
+            <returns>Json contendo item referente ao id apresentado</returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ItemController.Inserir(ComandaWeb.Model.Item)">
+            <summary>
+            Inserir um novo item
+            </summary>
+            <param name="item">json contendo informações sobre o item</param>
+            <returns>Retorna item cadastrado</returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ItemController.Atualizar(System.Int32,ComandaWeb.Model.Item)">
+            <summary>
+            Alterar informações do item
+            </summary>
+            <param name="id">Identificador do item</param>
+            <param name="item">Json contendo dados do item</param>
+            <returns></returns>
+        </member>
+        <member name="M:ComandaWeb.Controllers.ItemController.Remover(System.Int32)">
+            <summary>
+            Remover item 
+            </summary>
+            <param name="id">Identificador do item</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

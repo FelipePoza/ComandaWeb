@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 
 namespace ComandaWeb.Controllers
 {
+    //[Authorize(AuthenticationSchemes ="Bearer")]
+    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class ItemController : ControllerBase
@@ -24,6 +26,10 @@ namespace ComandaWeb.Controllers
             _log = log;
         }
 
+        /// <summary>
+        /// Listar Itens
+        /// </summary>
+        /// <returns>Json contendo lista de itens</returns>
         [HttpGet]
         public async Task<IActionResult> Listar()
         {
@@ -31,7 +37,15 @@ namespace ComandaWeb.Controllers
             return Ok(item);
         }
 
+        /// <summary>
+        /// Listar Item por ID
+        /// </summary>
+        /// <param name="id">Identificador do Item</param>
+        /// <returns>Json contendo item referente ao id apresentado</returns>
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> ListarPorId(int id)
         {
             var item = await _unidadeTrabalho.ItemRepositorio.ListarPorId(a => a.Id == id);
@@ -43,7 +57,14 @@ namespace ComandaWeb.Controllers
             return Ok(item);
         }
 
+        /// <summary>
+        /// Inserir um novo item
+        /// </summary>
+        /// <param name="item">json contendo informações sobre o item</param>
+        /// <returns>Retorna item cadastrado</returns>
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Inserir([FromBody] Item item)
         {
              _unidadeTrabalho.ItemRepositorio.Adicionar(item);
@@ -52,7 +73,16 @@ namespace ComandaWeb.Controllers
             return Created(url,item);
         }
 
+        /// <summary>
+        /// Alterar informações do item
+        /// </summary>
+        /// <param name="id">Identificador do item</param>
+        /// <param name="item">Json contendo dados do item</param>
+        /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Atualizar(int id, [FromBody] Item item)
         {
             if (id != item.Id)
@@ -65,7 +95,15 @@ namespace ComandaWeb.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Remover item 
+        /// </summary>
+        /// <param name="id">Identificador do item</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesDefaultResponseType]
         public async Task<IActionResult> Remover(int id)
         {
             var item = await _unidadeTrabalho.ItemRepositorio.ListarPorId(a => a.Id == id);
