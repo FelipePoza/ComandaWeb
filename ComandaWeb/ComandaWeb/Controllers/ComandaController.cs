@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
+using System.Collections.Generic;
 
 namespace ComandaWeb.Controllers
 {
@@ -30,11 +31,12 @@ namespace ComandaWeb.Controllers
         /// </summary>
         /// <returns>Retornar json contendo as comandas cadastradas.</returns>
         [HttpGet]
-        public async Task<IActionResult> Listar()
+        public async Task<ActionResult<IList<ComandaApi>>> Listar()
         {
             var comanda = await _unidadeTrabalho.ComandaRepositorio.Listar().Select(l=>l.ToApi()).ToListAsync();
             return Ok(comanda);
         }
+
 
         /// <summary>
         /// Retornar comanda cadastrada por id

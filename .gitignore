@@ -12,3 +12,5 @@
 /ComandaWeb/ComandaWeb.DAL.Comanda/obj
 /ComandaWeb/ComandaWeb.Model/bin/Debug/netcoreapp3.1
 /ComandaWeb/ComandaWeb.Model/obj
+/ComandaWeb/ComandaWebXUnitTest/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWebXUnitTest/obj
