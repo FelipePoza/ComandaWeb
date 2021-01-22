@@ -32,6 +32,15 @@ namespace ComandaWeb
             services.AddControllers();
             services.AddScoped<IUnidadeTrabalho, UnidadeTrabalho>();
             services.AddDbContext<ComandaContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Comanda")));
+            services.AddCors();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("HabilitarCORS", builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().Build();
+                });
+            });
 
             //Swagger
             services.AddSwaggerGen(c => {
@@ -128,10 +137,13 @@ namespace ComandaWeb
 
             app.UseAuthorization();
             
+            app.UseCors("HabilitarCORS");
+
             app.UseSwagger(c =>
             {
                 c.SerializeAsV2 = true;
             });
+            
             app.UseSwaggerUI(
                 c =>
                 {
@@ -139,7 +151,7 @@ namespace ComandaWeb
                     c.RoutePrefix = string.Empty;
                 }
             );
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
