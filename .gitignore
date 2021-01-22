@@ -14,3 +14,9 @@
 /ComandaWeb/ComandaWeb.Model/obj
 /ComandaWeb/ComandaWebXUnitTest/bin/Debug/netcoreapp3.1
 /ComandaWeb/ComandaWebXUnitTest/obj
+/ComandaWeb/ComandaWeb.ProvedorAutenticacao/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWeb.ProvedorAutenticacao/obj
+/ComandaWeb/ComandaWeb.Seguranca/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWeb.Seguranca/obj
+/ComandaWeb/ComandaWeb.Usuario/bin/Debug/netcoreapp3.1
+/ComandaWeb/ComandaWeb.Usuario/obj

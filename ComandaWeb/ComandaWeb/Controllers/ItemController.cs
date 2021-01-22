@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ComandaWeb.DAL.Comanda.Repositorio;
 using ComandaWeb.Model;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace ComandaWeb.Controllers
 {
-    //[Authorize(AuthenticationSchemes ="Bearer")]
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]

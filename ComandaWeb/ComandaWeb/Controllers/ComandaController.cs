@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace ComandaWeb.Controllers
 {
-    //[Authorize(AuthenticationSchemes ="Bearer")]
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
@@ -55,7 +55,7 @@ namespace ComandaWeb.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesDefaultResponseType]
-        public async Task<IActionResult> ListarPorId(int id)
+        public async Task<ActionResult<ComandaApi>> ListarPorId(int id)
         {
             var comanda = await _unidadeTrabalho.ComandaRepositorio.ListarPorId(a=>a.Id == id);
             if (comanda == null)
@@ -84,11 +84,12 @@ namespace ComandaWeb.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Inserir([FromBody] ComandaApi comanda)
         {
-            _unidadeTrabalho.ComandaRepositorio.Adicionar(comanda.ToModel());
+            var comandaModelo = comanda.ToModel();
+            _unidadeTrabalho.ComandaRepositorio.Adicionar(comandaModelo);
             await _unidadeTrabalho.Salvar();
-            var url = Url.Action("Listar");
             _log.LogInformation("Comanda criada.");
-            return Created(url,comanda);
+            var url = Url.Action("ListarPorId", new { id = comandaModelo.Id });
+            return new CreatedResult(url, comandaModelo);
         }
 
         /// <summary>

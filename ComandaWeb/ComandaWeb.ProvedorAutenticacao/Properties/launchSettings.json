@@ -3,27 +3,27 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "https://localhost:64764",
-      "sslPort": 44392
+      "applicationUrl": "http://localhost:50680",
+      "sslPort": 44383
     }
   },
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchUrl": "api/Comanda",
+      "launchBrowser": true,
+      "launchUrl": "api/Login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "ComandaWeb": {
+    "ComandaWeb.ProvedorAutenticacao": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/Comanda",
+      "launchUrl": "api/Login",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "https://localhost:64764"
+      "applicationUrl": "https://localhost:6001"
     }
   }
 }
