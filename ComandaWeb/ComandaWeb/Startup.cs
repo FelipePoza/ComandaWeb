@@ -3,6 +3,7 @@ using ComandaWeb.DAL.Comanda.Repositorio;
 using ComandaWeb.Log;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace ComandaWeb
@@ -44,6 +46,7 @@ namespace ComandaWeb
 
             //Swagger
             services.AddSwaggerGen(c => {
+                c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
@@ -114,6 +117,12 @@ namespace ComandaWeb
                 };
             });
 
+            services.AddApiVersioning(options => {
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
+                options.ReportApiVersions = true;
+                options.ApiVersionReader = new HeaderApiVersionReader("api-version");
+            });
 
         }
 

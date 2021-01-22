@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace ComandaWeb.Controllers
 {
     [Authorize]
+    [ApiVersion("1.0")]
     [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
