@@ -4,7 +4,7 @@
         <name>ComandaWeb</name>
     </assembly>
     <members>
-        <member name="M:ComandaWeb.Controllers.ComandaController.Listar">
+        <member name="M:ComandaWeb.Controllers.ComandaController.Listar(ComandaWeb.Model.Paginacao.ComandaParametro)">
             <summary>
             Listar Comandas cadastradas
             </summary>

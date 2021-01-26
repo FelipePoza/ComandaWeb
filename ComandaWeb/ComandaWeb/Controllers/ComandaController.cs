@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using System.Collections.Generic;
+using ComandaWeb.Model.Paginacao;
+using Newtonsoft.Json;
 
 namespace ComandaWeb.Controllers
 {
@@ -32,9 +34,22 @@ namespace ComandaWeb.Controllers
         /// </summary>
         /// <returns>Retornar json contendo as comandas cadastradas.</returns>
         [HttpGet]
-        public async Task<ActionResult<IList<ComandaApi>>> Listar()
+        public ActionResult<IList<ComandaApi>> Listar([FromQuery] ComandaParametro parametro)
         {
-            var comanda = await _unidadeTrabalho.ComandaRepositorio.Listar().Select(l=>l.ToApi()).ToListAsync();
+            var comanda =  _unidadeTrabalho.ComandaRepositorio.RetornarComanda(parametro);
+
+            var metadata = new
+            {
+                comanda.TotalRegistros,
+                comanda.TamanhoPagina,
+                comanda.PaginaAtual,
+                comanda.TotalPaginas,
+                comanda.TemProxima,
+                comanda.TemAnterior
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+
             return Ok(comanda);
         }
 
